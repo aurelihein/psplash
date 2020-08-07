@@ -45,6 +45,14 @@ AS_IF([test x$img_fullscreen = xtrue], [
     EXTRA_GCC_FLAGS="$EXTRA_GCC_FLAGS -DPSPLASH_IMG_FULLSCREEN=1"
 ])
 
+AC_ARG_ENABLE([draw-progress-bar],
+    AS_HELP_STRING([--enable-draw-progress-bar], [Enable the drawing of the progress bar instead of png)]),
+    [draw_progress_bar=true],
+    [draw_progress_bar=false])
+AS_IF([test x$draw_progress_bar = xtrue], [
+    EXTRA_GCC_FLAGS="$EXTRA_GCC_FLAGS -DPSPLASH_DRAW_PROGRESS_BAR=1"
+])
+
 AC_SUBST(EXTRA_GCC_FLAGS)
 
 AC_OUTPUT([

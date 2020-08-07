@@ -62,6 +62,24 @@ psplash_draw_msg (PSplashFB *fb, const char *msg)
 }
 
 void
+psplash_draw_progress_border (PSplashFB *fb)
+{
+  int x, y, width, height, barwidth, border;
+
+  /* 4 pix border */
+  border = 4;
+  x      = ((fb->width  - BAR_IMG_WIDTH)/2) ;
+  y      = SPLIT_LINE_POS(fb);
+  width  = BAR_IMG_WIDTH;
+  height = BAR_IMG_HEIGHT;
+      psplash_fb_draw_rect (fb, x, y, width,
+			    height, PSPLASH_BAR_COLOR);
+
+  DBG("value: %i, width: %i, barwidth :%i border :%i\n", value,
+		width, barwidth, border);
+}
+
+void
 psplash_draw_progress (PSplashFB *fb, int value)
 {
   int x, y, width, height, barwidth;
@@ -312,6 +330,9 @@ main (int argc, char** argv)
 			 POKY_IMG_RLE_PIXEL_DATA);
 
   /* Draw progress bar border */
+#ifdef PSPLASH_DRAW_PROGRESS_BAR
+  psplash_draw_progress_border(fb);
+#else
   psplash_fb_draw_image (fb, 
 			 (fb->width  - BAR_IMG_WIDTH)/2, 
 			 SPLIT_LINE_POS(fb),
@@ -320,6 +341,7 @@ main (int argc, char** argv)
 			 BAR_IMG_BYTES_PER_PIXEL,
 			 BAR_IMG_ROWSTRIDE,
 			 BAR_IMG_RLE_PIXEL_DATA);
+#endif
 
   psplash_draw_progress (fb, 0);
 
